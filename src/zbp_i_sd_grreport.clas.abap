@@ -1,0 +1,7 @@
+CLASS zbp_i_sd_grreport DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_sd_grreport.
+ENDCLASS.
+
+
+
+CLASS zbp_i_sd_grreport IMPLEMENTATION.
+ENDCLASS.

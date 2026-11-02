@@ -1,0 +1,8 @@
+*.bak
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+push_to_github.ps1

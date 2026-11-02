@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_BDEF" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <BDEF>
+    <NAME>ZI_SD_GRREPORT</NAME>
+    <TYPE>BDEF/BDO</TYPE>
+    <DESCRIPTION>Behavior Definition for ZI_SD_GRREPORT</DESCRIPTION>
+    <LANGUAGE>E</LANGUAGE>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+   </BDEF>
+  </asx:values>
+ </asx:abap>
+</abapGit>

@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service Definition for GR Report'
+define service ZSD_SD_GRREPORT_SRV {
+  expose ZC_SD_GRREPORT        as GrReport;
+  expose ZI_SD_GRREPORTITEM    as GrReportItem;
+  expose ZI_SD_GRREPORT_VH     as InboundDeliveryVH;
+  expose ZI_SD_GRREPORTRSN_VH  as ReasonVH;
+}

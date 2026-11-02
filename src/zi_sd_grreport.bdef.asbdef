@@ -1,0 +1,78 @@
+managed implementation in class zbp_i_sd_grreport unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_SD_GRREPORT alias GrReport
+persistent table zsdtgrr
+draft table zsdtgrrd
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global )
+{
+  field ( numbering : managed, readonly ) GrUuid;
+  field ( readonly )
+    ReportNo,
+    MaterialDocument,
+    MaterialDocumentYear,
+    Status,
+    StatusCriticality,
+    Message,
+    CreatedBy,
+    CreatedAt,
+    LocalLastChangedBy,
+    LocalLastChangedAt,
+    LastChangedAt;
+
+  field ( mandatory : create )
+    InboundDelivery;
+
+  field ( features : instance )
+    InboundDelivery,
+    DocumentDate,
+    PostingDate,
+    ReferenceDocument,
+    ReasonCode;
+
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+
+  determination setDefaultValues on modify { create; }
+  determination setDeliveryDefaults on modify { field InboundDelivery; }
+  determination setReportNo on save { create; }
+
+  validation validateInboundDelivery on save { create; update; field InboundDelivery; }
+  validation validateDates on save { create; update; field DocumentDate, PostingDate; }
+
+  action ( features : instance ) PostGoodsReceipt result [1] $self;
+
+  draft action ( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare
+  {
+    validation validateInboundDelivery;
+    validation validateDates;
+  }
+
+  mapping for zsdtgrr
+  {
+    GrUuid               = gr_uuid;
+    ReportNo             = report_no;
+    InboundDelivery      = inbound_delivery;
+    DocumentDate         = document_date;
+    PostingDate          = posting_date;
+    ReferenceDocument    = reference_document;
+    ReasonCode           = reason_code;
+    MaterialDocument     = material_document;
+    MaterialDocumentYear = material_document_year;
+    Status               = status;
+    Message              = message;
+    CreatedBy            = created_by;
+    CreatedAt            = created_at;
+    LocalLastChangedBy   = local_last_changed_by;
+    LocalLastChangedAt   = local_last_changed_at;
+    LastChangedAt        = last_changed_at;
+  }
+}

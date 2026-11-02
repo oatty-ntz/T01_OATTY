@@ -1,0 +1,227 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Goods Receipt',
+    typeNamePlural: 'Material Documents',
+    title: {
+      type: #STANDARD,
+      value: 'ReportNo'
+    },
+    description: {
+      type: #STANDARD,
+      value: 'InboundDelivery'
+    }
+  },
+  presentationVariant: [{
+    sortOrder: [{
+      by: 'ReportNo',
+      direction: #DESC
+    }],
+    visualizations: [{
+      type: #AS_LINEITEM
+    }]
+  }]
+}
+annotate entity ZC_SD_GRREPORT with
+{
+  @UI.facet: [
+    {
+      id: 'HeaderStatus',
+      purpose: #HEADER,
+      type: #DATAPOINT_REFERENCE,
+      position: 10,
+      targetQualifier: 'StatusDataPoint'
+    },
+    {
+      id: 'GeneralInfoSection',
+      purpose: #STANDARD,
+      type: #COLLECTION,
+      label: 'General Information',
+      position: 10
+    },
+    {
+      id: 'GeneralInfoGroup',
+      parentId: 'GeneralInfoSection',
+      purpose: #STANDARD,
+      type: #FIELDGROUP_REFERENCE,
+      label: 'Delivery & Posting Details',
+      position: 10,
+      targetQualifier: 'GeneralGroup'
+    },
+    {
+      id: 'DocInfoGroup',
+      parentId: 'GeneralInfoSection',
+      purpose: #STANDARD,
+      type: #FIELDGROUP_REFERENCE,
+      label: 'Material Document Info',
+      position: 20,
+      targetQualifier: 'DocumentGroup'
+    },
+    {
+      id: 'ItemsFacet',
+      purpose: #STANDARD,
+      type: #LINEITEM_REFERENCE,
+      label: 'Scan Item',
+      position: 20,
+      targetElement: '_Items'
+    },
+    {
+      id: 'AdminFacet',
+      purpose: #STANDARD,
+      type: #FIELDGROUP_REFERENCE,
+      label: 'Administrative Data',
+      position: 30,
+      targetQualifier: 'AdminGroup'
+    }
+  ]
+
+  @UI.hidden: true
+  GrUuid;
+
+  @UI: {
+    lineItem: [
+      { position: 5, importance: #HIGH },
+      { type: #FOR_ACTION, dataAction: 'PostGoodsReceipt', label: 'Post Goods Receipt' }
+    ],
+    identification: [
+      { position: 5 },
+      { type: #FOR_ACTION, dataAction: 'PostGoodsReceipt', label: 'Post Goods Receipt' }
+    ],
+    fieldGroup: [{ qualifier: 'DocumentGroup', position: 5 }]
+  }
+  @EndUserText.label: 'GR Report No.'
+  ReportNo;
+
+  @UI: {
+    lineItem: [{ position: 10, importance: #HIGH }],
+    selectionField: [{ position: 20 }],
+    fieldGroup: [{ qualifier: 'DocumentGroup', position: 10 }]
+  }
+  @EndUserText.label: 'Material Document'
+  MaterialDocument;
+
+  @UI: {
+    selectionField: [{ position: 10 }],
+    fieldGroup: [{ qualifier: 'DocumentGroup', position: 20 }]
+  }
+  @EndUserText.label: 'Material Document Year'
+  MaterialDocumentYear;
+
+  @UI: {
+    lineItem: [{ position: 20, importance: #HIGH }],
+    selectionField: [{ position: 30 }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 10 }]
+  }
+  @EndUserText.label: 'Inbound Delivery'
+  InboundDelivery;
+
+  @UI: {
+    lineItem: [{ position: 30, importance: #HIGH }],
+    selectionField: [{ position: 40 }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 60 }]
+  }
+  @EndUserText.label: 'Purchase Order'
+  PurchaseOrder;
+
+  @UI: {
+    lineItem: [{ position: 40, importance: #HIGH }],
+    selectionField: [{ position: 50 }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 40 }]
+  }
+  @EndUserText.label: 'Supplier'
+  Supplier;
+
+  @UI.hidden: true
+  @EndUserText.label: 'Supplier Name'
+  SupplierName;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 50 }]
+  }
+  @EndUserText.label: 'Plant'
+  Plant;
+
+  @UI: {
+    lineItem: [{ position: 50, importance: #MEDIUM }],
+    selectionField: [{ position: 60 }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 20 }]
+  }
+  @EndUserText.label: 'Document Date'
+  DocumentDate;
+
+  @UI: {
+    lineItem: [{ position: 60, importance: #MEDIUM }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 30 }]
+  }
+  @EndUserText.label: 'Posting Date'
+  PostingDate;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 70 }]
+  }
+  @EndUserText.label: 'Planned GR Date'
+  PlannedGRDate;
+
+  @UI: {
+    lineItem: [{ position: 70, importance: #MEDIUM }],
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 80 }]
+  }
+  @EndUserText.label: 'Reference Document'
+  ReferenceDocument;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'GeneralGroup', position: 90 }]
+  }
+  @EndUserText.label: 'Movement Type'
+  ReasonCode;
+
+  @UI.hidden: true
+  @EndUserText.label: 'Movement Reason Text'
+  ReasonText;
+
+  @UI: {
+    lineItem: [{ position: 80, importance: #HIGH, criticality: 'StatusCriticality' }],
+    selectionField: [{ position: 70 }],
+    dataPoint: { qualifier: 'StatusDataPoint', title: 'Status', criticality: 'StatusCriticality' },
+    fieldGroup: [{ qualifier: 'DocumentGroup', position: 30, criticality: 'StatusCriticality' }]
+  }
+  @EndUserText.label: 'Status'
+  Status;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI: {
+    lineItem: [{ position: 90, importance: #LOW }],
+    fieldGroup: [{ qualifier: 'DocumentGroup', position: 40 }]
+  }
+  @EndUserText.label: 'Message'
+  Message;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'AdminGroup', position: 10 }]
+  }
+  @EndUserText.label: 'Created By'
+  CreatedBy;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'AdminGroup', position: 20 }]
+  }
+  @EndUserText.label: 'Created On'
+  CreatedAt;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'AdminGroup', position: 30 }]
+  }
+  @EndUserText.label: 'Changed By'
+  LocalLastChangedBy;
+
+  @UI: {
+    fieldGroup: [{ qualifier: 'AdminGroup', position: 40 }]
+  }
+  @EndUserText.label: 'Changed On'
+  LocalLastChangedAt;
+
+  @UI.hidden: true
+  LastChangedAt;
+}
