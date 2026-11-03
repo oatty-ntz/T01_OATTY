@@ -48,16 +48,12 @@ define root view entity ZC_SD_GRREPORT
       Message,
 
       /* Read-only standard fields pulled via association path */
-      @Search.defaultSearchElement: true
-      @Search.fuzzinessThreshold: 0.8
       @ObjectModel.text.element: ['SupplierName']
       _InboundDelivery.Supplier         as Supplier,
 
       _InboundDelivery.SupplierName     as SupplierName,
       _InboundDelivery.Plant            as Plant,
 
-      @Search.defaultSearchElement: true
-      @Search.fuzzinessThreshold: 0.8
       _InboundDelivery.PurchaseOrder    as PurchaseOrder,
 
       _InboundDelivery.PlannedGRDate    as PlannedGRDate,

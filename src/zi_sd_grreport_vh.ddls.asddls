@@ -25,8 +25,6 @@ define view entity ZI_SD_GRREPORT_VH
       // VERIFY: ReferenceSDDocument holds PO number on I_InboundDeliveryItem
       _FirstItem.ReferenceSDDocument                   as PurchaseOrder,
 
-      @Search.defaultSearchElement: true
-      @Search.fuzzinessThreshold: 0.8
       @EndUserText.label: 'Supplier'
       I_InboundDelivery.Supplier                       as Supplier,
 

@@ -83,9 +83,16 @@ CLASS zcl_sd_grreport_action IMPLEMENTATION.
 
   METHOD read_delivery_headers.
     DATA lt_deliveries TYPE RANGE OF I_InboundDelivery-InboundDelivery.
+    DATA lv_ibd        TYPE I_InboundDelivery-InboundDelivery.
 
     LOOP AT gt_entities ASSIGNING FIELD-SYMBOL(<ls_entity>)
       WHERE InboundDelivery IS NOT INITIAL.
+      lv_ibd = |{ <ls_entity>-InboundDelivery ALPHA = IN }|.
+      APPEND VALUE #(
+        sign   = 'I'
+        option = 'EQ'
+        low    = lv_ibd
+      ) TO lt_deliveries.
       APPEND VALUE #(
         sign   = 'I'
         option = 'EQ'
@@ -120,8 +127,13 @@ CLASS zcl_sd_grreport_action IMPLEMENTATION.
       CLEAR ls_result.
       ls_result-gr_uuid = <ls_entity>-GrUuid.
 
+      DATA(lv_ibd) = CONV zi_sd_grreport-InboundDelivery( |{ <ls_entity>-InboundDelivery ALPHA = IN }| ).
       READ TABLE lt_headers INTO DATA(ls_hdr)
-        WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
+        WITH KEY inbound_delivery = lv_ibd.
+      IF sy-subrc <> 0.
+        READ TABLE lt_headers INTO ls_hdr
+          WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
+      ENDIF.
       IF sy-subrc <> 0.
         ls_result-status  = gc_status_error.
         ls_result-message = |Inbound Delivery { <ls_entity>-InboundDelivery } not found.|.

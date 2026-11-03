@@ -142,16 +142,25 @@ CLASS lhc_grreport IMPLEMENTATION.
     DATA(lt_headers) = lo_action->read_delivery_headers( ).
 
     DATA lt_update TYPE TABLE FOR UPDATE zi_sd_grreport.
+    DATA lv_ibd    TYPE zi_sd_grreport-InboundDelivery.
 
     LOOP AT lt_entities ASSIGNING FIELD-SYMBOL(<ls_entity>)
-      WHERE InboundDelivery IS NOT INITIAL
-        AND ReferenceDocument IS INITIAL.
+      WHERE InboundDelivery IS NOT INITIAL.
+      lv_ibd = |{ <ls_entity>-InboundDelivery ALPHA = IN }|.
       READ TABLE lt_headers INTO DATA(ls_hdr)
-        WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
-      IF sy-subrc = 0 AND ls_hdr-bill_of_lading IS NOT INITIAL.
+        WITH KEY inbound_delivery = lv_ibd.
+      IF sy-subrc <> 0.
+        READ TABLE lt_headers INTO ls_hdr
+          WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
+      ENDIF.
+
+      IF sy-subrc = 0.
         APPEND VALUE #(
           %tky              = <ls_entity>-%tky
-          ReferenceDocument = ls_hdr-bill_of_lading
+          InboundDelivery   = ls_hdr-inbound_delivery
+          ReferenceDocument = COND #( WHEN <ls_entity>-ReferenceDocument IS INITIAL
+                                      THEN ls_hdr-bill_of_lading
+                                      ELSE <ls_entity>-ReferenceDocument )
         ) TO lt_update.
       ENDIF.
     ENDLOOP.
@@ -159,7 +168,7 @@ CLASS lhc_grreport IMPLEMENTATION.
     IF lt_update IS NOT INITIAL.
       MODIFY ENTITIES OF zi_sd_grreport IN LOCAL MODE
         ENTITY GrReport
-        UPDATE FIELDS ( ReferenceDocument )
+        UPDATE FIELDS ( InboundDelivery ReferenceDocument )
         WITH lt_update
         REPORTED DATA(ls_reported).
     ENDIF.
@@ -231,8 +240,13 @@ CLASS lhc_grreport IMPLEMENTATION.
         CONTINUE.
       ENDIF.
 
+      DATA(lv_ibd) = CONV zi_sd_grreport-InboundDelivery( |{ <ls_entity>-InboundDelivery ALPHA = IN }| ).
       READ TABLE lt_headers INTO DATA(ls_hdr)
-        WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
+        WITH KEY inbound_delivery = lv_ibd.
+      IF sy-subrc <> 0.
+        READ TABLE lt_headers INTO ls_hdr
+          WITH KEY inbound_delivery = <ls_entity>-InboundDelivery.
+      ENDIF.
       IF sy-subrc <> 0.
         APPEND VALUE #( %tky = <ls_entity>-%tky ) TO failed-grreport.
         APPEND VALUE #(
