@@ -58,8 +58,7 @@ authorization master ( global )
 
   side effects
   {
-    field InboundDelivery affects field InboundDelivery,
-                                  field ReferenceDocument,
+    field InboundDelivery affects field ReferenceDocument,
                                   entity _InboundDelivery,
                                   entity _Items;
   }
