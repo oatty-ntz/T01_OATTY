@@ -6,8 +6,33 @@
     <NAME>ZC_SD_GRREPORT</NAME>
     <TYPE>BDEF/BDO</TYPE>
     <DESCRIPTION>Projection Behavior for ZC_SD_GRREPORT</DESCRIPTION>
-    <LANGUAGE>E</LANGUAGE>
-    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+    <DESCRIPTION_TEXT_LIMIT>60</DESCRIPTION_TEXT_LIMIT>
+    <LANGUAGE>EN</LANGUAGE>
+    <LINKS>
+     <item>
+      <HREF>./zc_sd_grreport/source/main/versions</HREF>
+      <REL>http://www.sap.com/adt/relations/versions</REL>
+      <TITLE>Historic versions</TITLE>
+     </item>
+     <item>
+      <HREF>./zc_sd_grreport/source/main</HREF>
+      <REL>http://www.sap.com/adt/relations/source</REL>
+      <TYPE>text/plain</TYPE>
+      <TITLE>Source Content</TITLE>
+     </item>
+     <item>
+      <HREF>./zc_sd_grreport/source/main</HREF>
+      <REL>http://www.sap.com/adt/relations/source</REL>
+      <TYPE>text/html</TYPE>
+      <TITLE>Source Content (HTML)</TITLE>
+     </item>
+    </LINKS>
+    <MASTER_LANGUAGE>EN</MASTER_LANGUAGE>
+    <ABAP_LANGU_VERSION>5</ABAP_LANGU_VERSION>
+    <SOURCE_URI>./zc_sd_grreport/source/main</SOURCE_URI>
+    <SOURCE_TYPE>ABAP_SOURCE</SOURCE_TYPE>
+    <SOURCE_FIXED_POINT_ARITHMETIC>true</SOURCE_FIXED_POINT_ARITHMETIC>
+    <SOURCE_UNICODE_CHECKS_ACTIVE>true</SOURCE_UNICODE_CHECKS_ACTIVE>
    </BDEF>
   </asx:values>
  </asx:abap>

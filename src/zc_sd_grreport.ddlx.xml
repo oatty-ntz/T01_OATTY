@@ -3,9 +3,11 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DDLX>
-    <DDLNAME>ZC_SD_GRREPORT</DDLNAME>
-    <DDLANGUAGE>E</DDLANGUAGE>
-    <DDTEXT>UI Metadata Extension for ZC_SD_GRREPORT</DDTEXT>
+    <METADATA>
+     <NAME>ZC_SD_GRREPORT</NAME>
+     <DESCRIPTION>UI Metadata Extension for ZC_SD_GRREPORT</DESCRIPTION>
+     <MASTER_LANGUAGE>EN</MASTER_LANGUAGE>
+    </METADATA>
    </DDLX>
   </asx:values>
  </asx:abap>
