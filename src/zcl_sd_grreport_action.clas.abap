@@ -9,27 +9,27 @@ CLASS zcl_sd_grreport_action DEFINITION
       gc_status_posted      TYPE zelm_sd_grreportstat VALUE 'P',
       gc_status_error       TYPE zelm_sd_grreportstat VALUE 'E',
       gc_reason_default     TYPE zelm_sd_grreportrsn  VALUE '101',
-      gc_gm_code_gr         TYPE char2                VALUE '01',
-      gc_gm_status_complete TYPE char1                VALUE 'C',
-      gc_report_prefix      TYPE char2                VALUE 'GR'.
+      gc_gm_code_gr         TYPE c LENGTH 2           VALUE '01',
+      gc_gm_status_complete TYPE c LENGTH 1           VALUE 'C',
+      gc_report_prefix      TYPE c LENGTH 2           VALUE 'GR'.
 
     TYPES:
       gts_gr_report TYPE STRUCTURE FOR READ RESULT zi_sd_grreport,
       gtt_gr_report TYPE TABLE FOR READ RESULT zi_sd_grreport,
 
       BEGIN OF gts_delivery_hdr,
-        inbound_delivery   TYPE char10,
-        bill_of_lading     TYPE char16,
-        overall_gm_status  TYPE char1,
+        inbound_delivery   TYPE zi_sd_grreport-InboundDelivery,
+        bill_of_lading     TYPE zi_sd_grreport-ReferenceDocument,
+        overall_gm_status  TYPE c LENGTH 1,
       END OF gts_delivery_hdr,
       gtt_delivery_hdr TYPE STANDARD TABLE OF gts_delivery_hdr WITH EMPTY KEY,
 
       BEGIN OF gts_post_result,
         gr_uuid                TYPE sysuuid_x16,
         status                 TYPE zelm_sd_grreportstat,
-        material_document      TYPE char10,
-        material_document_year TYPE numc4,
-        message                TYPE char220,
+        material_document      TYPE zi_sd_grreport-MaterialDocument,
+        material_document_year TYPE zi_sd_grreport-MaterialDocumentYear,
+        message                TYPE zi_sd_grreport-Message,
       END OF gts_post_result,
       gtt_post_result TYPE STANDARD TABLE OF gts_post_result WITH EMPTY KEY.
 
@@ -39,7 +39,7 @@ CLASS zcl_sd_grreport_action DEFINITION
 
     METHODS get_next_report_no
       RETURNING
-        VALUE(rv_report_no) TYPE char10.
+        VALUE(rv_report_no) TYPE zi_sd_grreport-ReportNo.
 
     METHODS read_delivery_headers
       RETURNING
@@ -63,8 +63,8 @@ CLASS zcl_sd_grreport_action IMPLEMENTATION.
 
 
   METHOD get_next_report_no.
-    DATA lv_max_no TYPE char10.
-    DATA lv_num    TYPE numc8.
+    DATA lv_max_no TYPE zi_sd_grreport-ReportNo.
+    DATA lv_num    TYPE n LENGTH 8.
 
     SELECT FROM zsdtgrr
       FIELDS MAX( report_no )

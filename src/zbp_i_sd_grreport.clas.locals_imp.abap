@@ -180,7 +180,7 @@ CLASS lhc_grreport IMPLEMENTATION.
 
     DATA(lo_action) = NEW zcl_sd_grreport_action( ).
     DATA(lv_next_no) = lo_action->get_next_report_no( ).
-    DATA lv_num TYPE numc8.
+    DATA lv_num TYPE n LENGTH 8.
     lv_num = lv_next_no+2(8).
 
     DATA lt_update TYPE TABLE FOR UPDATE zi_sd_grreport.
